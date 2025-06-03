@@ -1,0 +1,66 @@
+<div class="login-container">
+  <mat-card class="login-card fade-in-scale">
+    <mat-card-header>
+      <mat-card-title class="slide-in-down">Digital Banking</mat-card-title>
+      <mat-card-subtitle class="slide-in-up">Sign in to your professional account</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput
+                 type="text"
+                 formControlName="username"
+                 placeholder="Enter your username"
+                 autocomplete="username">
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+            Username is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput
+                 [type]="hidePassword ? 'password' : 'text'"
+                 formControlName="password"
+                 placeholder="Enter your password"
+                 autocomplete="current-password">
+          <button mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="togglePasswordVisibility()"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+            Password must be at least 6 characters
+          </mat-error>
+        </mat-form-field>
+
+        <div class="button-container">
+          <button mat-raised-button
+                  type="submit"
+                  [disabled]="!loginForm.valid || isLoading"
+                  class="full-width premium-button">
+            <mat-spinner *ngIf="isLoading" diameter="20" class="pulse-animation"></mat-spinner>
+            <span *ngIf="!isLoading">Sign In to Dashboard</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <div class="actions-container">
+        <p>Don't have an account?</p>
+        <button mat-button class="premium-button secondary" (click)="goToRegister()">
+          Create New Account
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
